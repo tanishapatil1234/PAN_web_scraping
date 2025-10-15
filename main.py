@@ -12,6 +12,8 @@ from api.joke import joke_api
 from api.user import user_api 
 from api.player import player_api
 from api.titanic import titanic_api
+from api.zscaler import zscaler_api
+
 # database Initialization functions
 from model.users import User, initUsers 
 from model.players import initPlayers
@@ -30,6 +32,8 @@ app.register_blueprint(covid_api)
 app.register_blueprint(user_api) 
 app.register_blueprint(player_api)
 app.register_blueprint(titanic_api)
+app.register_blueprint(zscaler_api)
+
 # register URIs for server pages
 app.register_blueprint(algorithm_views) 
 app.register_blueprint(recipe_views) 
@@ -90,6 +94,12 @@ def generate_data():
 # Register the custom command group with the Flask application
 app.cli.add_command(custom_cli)
         
+
+with app.app_context():
+    from model.zscaler import ZscalerPress
+    db.create_all()
+
+
 # this runs the flask application on the development server
 if __name__ == "__main__":
     # change name for testing
